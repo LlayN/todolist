@@ -1,9 +1,9 @@
 <?php
 
+require __DIR__ . "../../config/Manager.php";
+require __DIR__ . "../../models/TaskManager.php";
+require __DIR__ . "../../models/HomeManager.php";
 
-require("config/Manager.php");
-require("models/TaskManager.php");
-require("models/HomeManager.php");
 
 class Controllers 
 {

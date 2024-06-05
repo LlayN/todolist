@@ -15,14 +15,17 @@ ob_start();
 
 echo $contentNoTask;
 foreach ($allTask as $task) {
+  
   echo "<br>";
   echo "--------------------------------";
+  echo "<br>";
+  echo $id = $task['id'];
   echo "<br>";
   echo $task['date_tache'] . ", à " . $task['heure_tache'];
   echo "<br>";
   echo $task['titre']; 
   echo "<br>";
-  echo "<button class =\"removeButton\">x</button>";
+  echo "<button class =\"removeButton\" id = $id >x</button>";
   echo "<br>";
   echo "--------------------------------";
   echo "<br>";
