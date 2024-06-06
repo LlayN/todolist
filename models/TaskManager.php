@@ -40,7 +40,11 @@ class TaskManager extends Manager
     $stmt->execute();
   }
 
-  public function remove()
+  public function remove($id)
   {
+    $pdoReturn = $this->connectDatabase();
+    $stmt = $pdoReturn->prepare("DELETE FROM task WHERE id = :id");
+    $stmt->bindValue('id', $id);
+    $stmt->execute();
   }
 }

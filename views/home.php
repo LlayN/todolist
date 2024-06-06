@@ -18,8 +18,7 @@ foreach ($allTask as $task) {
   
   echo "<br>";
   echo "--------------------------------";
-  echo "<br>";
-  echo $id = $task['id'];
+  $id = $task['id'];
   echo "<br>";
   echo $task['date_tache'] . ", à " . $task['heure_tache'];
   echo "<br>";

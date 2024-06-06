@@ -1,9 +1,14 @@
 <?php
 
+
 require __DIR__ . "../../config/Manager.php";
 require __DIR__ . "../../models/TaskManager.php";
 require __DIR__ . "../../models/HomeManager.php";
 
+
+if(isset($_POST['id'])){
+  Controllers::removeTask($_POST['id']);
+}
 
 class Controllers 
 {
@@ -90,8 +95,15 @@ class Controllers
       $newPost = $this->initializedState($_POST);
       $taskManager = new TaskManager($newPost['titre'], $newPost['date_tache'], $newPost['heure_tache'], $newPost['etat']);
       $taskManager->add();
+      header('Location: index.php');
     }
   }
+
+  public static function removeTask($id){
+    $taskManager = new TaskManager();
+    $removeTask = $taskManager->remove($id);
+  }
+  
 }
 
 
