@@ -13,6 +13,10 @@ if(isset($_POST['id'])){
 class Controllers 
 {
 
+  public static $nbToday = [];
+  public static $nbComing = [];
+  public static $nbDelayed = [];
+
   private $timestamp;
   private $dateNow;
   private $nextDay;
@@ -40,12 +44,15 @@ class Controllers
   private function initializedState($p, $modify = null){
     if($this->dateNow == $p['date_tache']){
       $p['etat'] = 'aujourd\'hui';
+      Controllers::$nbToday[] = $p['etat'];
     }
     else if(strtotime($this->dateNow) > strtotime($p['date_tache'])){
       $p['etat'] = 'en retard';
+      Controllers::$nbDelayed[] = $p['etat'];
     }
     else if(strtotime($this->dateNow) < strtotime($p['date_tache'])){
       $p['etat'] = 'à venir';
+      Controllers::$nbComing[] = $p['etat'];
     }
     if(isset($modify)){
       $taskManager = new TaskManager(e: $p['etat']);
@@ -68,9 +75,14 @@ class Controllers
     } else {
       $message = " Tu as du travail aujourd'hui !";
       $contentNoTask = "";
+      
       for ($i = 0; $i < count($allTask); $i++) {
         $allTask[$i]['heure_tache'] = $this->formateDateTime(h: $allTask[$i]['heure_tache']);
-        $this->initializedState($allTask[$i], true);        
+        $this->initializedState($allTask[$i], true);
+        $taskToday = count(Controllers::$nbToday);  
+        $taskComing = count(Controllers::$nbComing);
+        $taskDelayed = count(Controllers::$nbDelayed);   
+        $fullTask = $taskToday + $taskComing + $taskDelayed;
         switch ($allTask[$i]['date_tache']){
           case $this->dateNow:
             $allTask[$i]['date_tache'] = "Aujourd'hui";
@@ -85,6 +97,7 @@ class Controllers
           $allTask[$i]['date_tache'] = $this->formateDateTime(d: $allTask[$i]['date_tache']);
         }
       }
+
     }
     require("views/home.php");
   }
@@ -95,7 +108,7 @@ class Controllers
       $newPost = $this->initializedState($_POST);
       $taskManager = new TaskManager($newPost['titre'], $newPost['date_tache'], $newPost['heure_tache'], $newPost['etat']);
       $taskManager->add();
-      header('Location: index.php');
+      header('Location: /');
     }
   }
 

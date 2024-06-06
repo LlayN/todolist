@@ -7,7 +7,13 @@ ob_start();
 <h2>Bonjour <?= $user ?>,</h2>
 <p><?= $message ?></p>
 <h2>Vos tâches</h2>
-<button class="">Trier</button>
+<h3>Aujourd'hui <?= $taskToday?></h3>
+<h3>A venir <?= $taskComing ?></h3>
+<h3>En retard <?= $taskDelayed?></h3>
+<h3>Voir tout <?= $fullTask ?></h3>
+
+
+<button>Trier</button>
 <button>Filtrer</button>
 
 <?php
