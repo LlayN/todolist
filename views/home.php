@@ -15,31 +15,34 @@ ob_start();
 
 <button>Trier</button>
 <button>Filtrer</button>
-
+<br>
+<hr>
+<?= $contentNoTask?>
 <?php
-
-
-echo $contentNoTask;
 foreach ($allTask as $task) {
-  
-  echo "<br>";
-  echo "--------------------------------";
-  $id = $task['id'];
-  echo "<br>";
-  echo $task['date_tache'] . ", à " . $task['heure_tache'];
-  echo "<br>";
-  echo $task['titre']; 
-  echo "<br>";
-  echo "<button class =\"removeButton\" id = $id >x</button>";
-  echo "<br>";
-  echo "--------------------------------";
-  echo "<br>";
-};
-
 ?>
+  <div>
+    <?php $id = $task['id'];?>
+    <h4><?=$task['date_tache']?> , à <?=$task['heure_tache']?></h4>
+    <hr>
+    <h3><?=$task['titre']?></h3>
+    <button class="removeButton" id="<?=$id?>">Supprimer</button>
+    <hr>
+  </div>
+<?php
+};
+?>
+
+
+
+
+<br>
+<div>
 <button>
   <a href="?page=ajouter_tache">Ajouter une tâche</a>
 </button>
+
+</div>
 
 <?php
 $content = ob_get_clean();
