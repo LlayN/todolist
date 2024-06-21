@@ -11,7 +11,11 @@ $instControllers = new Controllers();
       $instControllers->home();
     } else if ($_GET['page'] == "ajouter_tache") {
       $instControllers->addTask();
-    };
+    }
+    else if ($_GET['page'] == "modifier_tache") {
+      $instControllers->modifyTask();
+    }
+
   } else {
     $instControllers->home();
   }
