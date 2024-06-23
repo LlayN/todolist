@@ -11,7 +11,8 @@ p {
   margin: 0 !important;
 }
 
-.welcome > h2 {
+.welcome > h2,
+.welcome > h3 {
   font-family: "SF Pro Display SemiBold";
 }
 
@@ -173,4 +174,16 @@ h5 {
   font-family: "SF Pro Display Light";
   color: #909090;
   font-size: 13px;
+}
+
+.btn-error {
+  background-color: #6e3ee4 !important;
+  color: white !important;
+  font-family: "SF Pro Display Semibold" !important;
+}
+
+.div-error {
+  height: calc(100vh - 218px);
+  box-sizing: border-box;
+  font-family: "SF Pro Display SemiBold";
 }

@@ -1,6 +1,6 @@
 <?php
 $user = 'Hugo';
-$title = "Accueil";
+$title = " - Accueil";
 ob_start();
 ?>
 
@@ -142,11 +142,7 @@ ob_start();
     </button>
   </a>
 </div>
-<footer class="container footer d-flex justify-content-center align-items-center">
-  <div class="div-footer">
-    <p>&copy; 2024 Yengo Hugo. Tous droits réservés.</p>
-  </div>
-</footer>
+
 
 <script src="../../public/js/app.js" type="module"></script>
 

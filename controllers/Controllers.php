@@ -33,26 +33,26 @@ class Controllers
   public function home()
   {
     ?>
-<script type="module">
-import * as app from "../public/js/app.js";
-fetch("controllers/Controllers.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: "action=descendant",
-  })
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    app.dataView(data, false);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-</script>
-<?php
+    <script type="module">
+      import * as app from "../public/js/app.js";
+      fetch("controllers/Controllers.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "action=descendant",
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          app.dataView(data, false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    </script>
+    <?php
 
 
     $homeManager = new HomeManager();
@@ -74,6 +74,7 @@ fetch("controllers/Controllers.php", {
     require ("views/addtaskView.php");
     if (!empty($_POST)) {
       $newPost = $this->initializedState($_POST);
+      $newPost['titre'] = htmlspecialchars($newPost['titre']);
       $taskManager = new TaskManager($newPost['titre'], $newPost['date_tache'], $newPost['heure_tache'], $newPost['etat']);
       $taskManager->add();
       header('Location: /');
@@ -108,12 +109,15 @@ fetch("controllers/Controllers.php", {
 
     if (isset($_SESSION[('id')])) {
       if (!empty($_POST)) {
+        $_POST['titre'] = htmlspecialchars($_POST['titre']);
         $taskManager = new TaskManager(t: $_POST['titre'], d_t: $_POST['date_tache'], h_t: $_POST['heure_tache'], id: $_SESSION['id']);
         $taskManager->updateTask();
         header('Location: /');
       }
-
     }
-
+  }
+  public function error($th)
+  {
+    require ('views/errorserverView.php');
   }
 }

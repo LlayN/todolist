@@ -8,7 +8,9 @@ export function dataView(d, data_manip) {
 
   if (data_manip) {
     Array.from(dataView.childNodes).forEach((element) => {
-      element.remove();
+      if (element.nodeType !== Node.TEXT_NODE) {
+        element.remove();
+      }
     });
   }
 

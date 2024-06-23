@@ -1,5 +1,5 @@
 <?php
-$title = "Accueil - Ajouter une tâche";
+$title = " - Ajouter une tâche";
 ob_start();
 ?>
 

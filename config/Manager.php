@@ -8,7 +8,8 @@ abstract class Manager
       $pdo = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
       return $pdo;
     } catch (PDOException $e) {
-      echo "Connexion KO : " . $e->getMessage();
-    };
+      throw $e;
+    }
+    ;
   }
-};
+}
