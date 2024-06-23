@@ -3,14 +3,15 @@ const modifyButton = document.querySelectorAll(".modifyButton");
 const sortButton = document.querySelectorAll('[name="sort"]');
 const filterButton = document.querySelectorAll('[name="filter"]');
 
-export function dataView(d, selected = false) {
+export function dataView(d, data_manip) {
   const dataView = document.querySelector("#dataView");
-  if (selected) {
-    let elementArray = Array.from(dataView.childNodes);
-    elementArray.forEach((element) => {
-      dataView.removeChild(element);
+
+  if (data_manip) {
+    Array.from(dataView.childNodes).forEach((element) => {
+      element.remove();
     });
   }
+
   for (let i = 0; i < d.length; i++) {
     let dateNow = new Date();
     let yesterday = lastDay();
@@ -78,19 +79,20 @@ export function dataView(d, selected = false) {
 
     var div2 = document.createElement("div");
     div2.className = "data d-flex justify-content-between align-items-center";
-
     div2.id = i;
+    var idTask = d[i]["id"];
+
     for (let i = 0; i < 2; i++) {
       let div = document.createElement("div");
       div.className = "dropdown mx-3";
-      div.id = i;
       div2.append(div);
 
-      var button = document.createElement("button");
-      button.className = "btn btn-secondary btn-data";
-      button.type = "button";
-      button.setAttribute("data-bs-toggle", "dropdown");
-      button.setAttribute("aria-expanded", "false");
+      var buttonBubble = document.createElement("button");
+      buttonBubble.id = i;
+      buttonBubble.className = "btn btn-secondary btn-data";
+      buttonBubble.type = "buttonBubble";
+      buttonBubble.setAttribute("data-bs-toggle", "dropdown");
+      buttonBubble.setAttribute("aria-expanded", "false");
 
       var ul = document.createElement("ul");
       ul.className = "dropdown-menu";
@@ -98,24 +100,38 @@ export function dataView(d, selected = false) {
       for (let i = 0; i < 2; i++) {
         let li = document.createElement("li");
         let a = document.createElement("a");
+        var btn = document.createElement("button");
+        btn.id = idTask;
+        btn.addEventListener("click", function () {
+          let divId = this.closest(".data");
+          divId.remove();
+          removeTask(this.id, dataView);
+        });
+
         a.id = i;
         if (a.id == 0) {
           a.className = "dropdown-item";
-          a.href = "#";
           a.textContent = "Modifier";
+          a.id = idTask;
+          a.addEventListener("click", function () {
+            modifyTask(this.id);
+          });
+          a.href = "?page=modifier_tache";
+          li.append(a);
         } else {
-          a.className = "dropdown-item";
-          a.href = "#";
-          a.textContent = "Supprimer";
+          btn.className = "dropdown-item";
+
+          btn.textContent = "Supprimer";
+          li.append(btn);
         }
-        li.append(a);
+
         ul.append(li);
       }
     }
 
     dataView.append(div2);
     dataView.lastElementChild.firstElementChild.append(div1, newTitle);
-    dataView.lastElementChild.lastElementChild.append(button);
+    dataView.lastElementChild.lastElementChild.append(buttonBubble);
     dataView.lastElementChild.lastElementChild.append(ul);
   }
 }
@@ -148,7 +164,7 @@ function verifyState(dateN, dateT, etat, id) {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: "update=updateState" + "&id=" + id + "&state=" + newState,
+    body: "update_state=update" + "&id=" + id + "&state=" + newState,
   })
     .then((response) => {
       console.log(response.ok);
@@ -160,26 +176,44 @@ function verifyState(dateN, dateT, etat, id) {
   return newState;
 }
 
-removeButton.forEach((element) => {
-  element.addEventListener("click", () => {
-    let itemId = element.getAttribute("id");
-    fetch("controllers/Controllers.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "id=" + itemId,
+function modifyTask(id) {
+  fetch("controllers/Controllers.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: "id_modify=" + id,
+  })
+    .then((response) => {
+      return response.text();
     })
-      .then((response) => {
-        console.log(response.ok);
-        location.reload();
-      })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => {
+      console.log("ERREUR : " + e.message);
+    });
+}
 
-      .catch((error) => {
-        console.error("ERREUR", error);
-      });
-  });
-});
+function removeTask(id, dataView) {
+  fetch("controllers/Controllers.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: "remove=" + id,
+  })
+    .then((response) => {
+      console.log(response.ok);
+      if (dataView.childNodes.length == 1) {
+        window.location.reload();
+      }
+    })
+
+    .catch((error) => {
+      console.error("ERREUR", error);
+    });
+}
 
 sortButton.forEach((element) => {
   element.addEventListener("change", () => {
@@ -207,6 +241,7 @@ sortButton.forEach((element) => {
 filterButton.forEach((element) => {
   element.addEventListener("change", () => {
     let value = element.value;
+    // Action dans HomeManager.php
     fetch("controllers/Controllers.php", {
       method: "POST",
       headers: {

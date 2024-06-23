@@ -8,7 +8,6 @@ ob_start();
   <h2 class="mb-0">Bonjour <?= $user ?>,</h2>
   <p><?= $message ?></p>
 </div>
-
 <div class="container my-4">
   <div class="row dashboard">
     <div class="col-6">
@@ -65,11 +64,6 @@ ob_start();
     </div>
   </div>
 </div>
-
-
-
-
-
 <div class="container my-4">
   <div class="d-flex justify-content-between align-items-center">
     <h4>Vos tâches</h4>
@@ -81,17 +75,17 @@ ob_start();
         </button>
         <ul class="dropdown-menu p-3 sort">
           <div class="form-check">
-            <input class="form-check-input" value="ascendant" type="radio" name="sort"
-              id="ascendant">
-            <label class="form-check-label" for="ascendant">
-              Par état croissant
-            </label>
-          </div>
-          <div class="form-check">
             <input class="form-check-input" value="descendant" type="radio" name="sort"
               id="descendant" checked>
             <label class="form-check-label" for="descendant">
-              Par état décroissant
+              Par priorités
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" value="ascendant" type="radio" name="sort"
+              id="ascendant">
+            <label class="form-check-label" for="ascendant">
+              Par ordre croissant
             </label>
           </div>
         </ul>
@@ -142,11 +136,17 @@ ob_start();
 </main>
 
 <div class="container my-4">
-  <button class="btn" id="addTask">
-    <a href="?page=ajouter_tache" class="text-white"><img
-        src="../public/assets/svg/plus-svgrepo-com.svg" alt=""></a>
-  </button>
+  <a href="?page=ajouter_tache" class="text-white">
+    <button class="btn" id="addTask">
+      <img src="../public/assets/svg/plus-svgrepo-com.svg" alt="">
+    </button>
+  </a>
 </div>
+<footer class="container footer d-flex justify-content-center align-items-center">
+  <div class="div-footer">
+    <p>&copy; 2024 Yengo Hugo. Tous droits réservés.</p>
+  </div>
+</footer>
 
 <script src="../../public/js/app.js" type="module"></script>
 

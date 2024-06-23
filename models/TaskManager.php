@@ -1,22 +1,22 @@
 <?php
 
-if (isset($_POST['update'])) {
-
+if (isset($_POST['update_state'])) {
   $taskManager = new TaskManager(id: $_POST['id'], e: $_POST['state']);
   $taskManager->updateState();
+} else if (isset($_POST['remove'])) {
+  $taskManager = new TaskManager(id: $_POST['remove']);
+  $taskManager->remove();
+} else if (isset($_POST['id_modify'])) {
+  $_SESSION['id'] = $_POST['id_modify'];
 }
-
 
 class TaskManager extends Manager
 {
-
-
-
   protected $titre;
   protected $date_tache;
   protected $heure_tache;
   protected $etat;
-  public $id;
+  protected $id;
 
   public function __construct($t = "", $d_t = "", $h_t = "", $e = "", $id = "")
   {
@@ -59,11 +59,12 @@ class TaskManager extends Manager
     $stmt->execute();
   }
 
-  public function remove($id)
+  public function remove()
   {
     $pdoReturn = $this->connectDatabase();
     $stmt = $pdoReturn->prepare("DELETE FROM task WHERE id = :id");
-    $stmt->bindValue('id', $id);
+    $stmt->bindValue('id', $this->id);
     $stmt->execute();
+
   }
 }

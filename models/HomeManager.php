@@ -2,33 +2,28 @@
 
 
 
-if(isset($_POST['action'])){
+if (isset($_POST['action'])) {
   $homeManager = new HomeManager();
-  if($_POST['action'] == 'getAll'){
+  if ($_POST['action'] == 'getAll') {
     $allTask = $homeManager->getAllTask();
     echo json_encode($allTask);
-  }
-  else if($_POST['action'] == "today"){
+  } else if ($_POST['action'] == "today") {
     $allTask = $homeManager->taskToday();
     echo json_encode($allTask);
-  }
-  else if($_POST['action'] == "coming"){
+  } else if ($_POST['action'] == "coming") {
     $allTask = $homeManager->taskComing();
     echo json_encode($allTask);
-  }
-  else if($_POST['action'] == "delayed"){
+  } else if ($_POST['action'] == "delayed") {
     $allTask = $homeManager->taskDelayed();
     echo json_encode($allTask);
-  }
-  else if($_POST['action'] == "ascendant"){
+  } else if ($_POST['action'] == "ascendant") {
     $allTask = $homeManager->sortAsc();
     echo json_encode($allTask);
-  }
-  else if($_POST['action'] == "descendant"){
+  } else if ($_POST['action'] == "descendant") {
     $allTask = $homeManager->sortDesc();
     echo json_encode($allTask);
   }
-  }
+}
 
 
 class HomeManager extends Manager
@@ -77,7 +72,8 @@ class HomeManager extends Manager
     return $allTask;
   }
 
-  public function sortAsc () {
+  public function sortAsc()
+  {
     $pdo = $this->connectDatabase();
     $stmt = $pdo->prepare("SELECT * FROM task ORDER BY date_tache ASC");
     $stmt->execute();
@@ -85,9 +81,10 @@ class HomeManager extends Manager
     return $allTask;
   }
 
-  public function sortDesc () {
+  public function sortDesc()
+  {
     $pdo = $this->connectDatabase();
-    $stmt = $pdo->prepare("SELECT * FROM task ORDER BY date_tache DESC");
+    $stmt = $pdo->prepare("SELECT * FROM task ORDER BY CASE WHEN etat = 'aujourd\'hui' THEN 1 ELSE 0 END DESC, date_tache DESC");
     $stmt->execute();
     $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $allTask;
