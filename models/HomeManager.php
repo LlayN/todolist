@@ -7,15 +7,6 @@ if (isset($_POST['action'])) {
   if ($_POST['action'] == 'getAll') {
     $allTask = $homeManager->getAllTask();
     echo json_encode($allTask);
-  } else if ($_POST['action'] == "today") {
-    $allTask = $homeManager->taskToday();
-    echo json_encode($allTask);
-  } else if ($_POST['action'] == "coming") {
-    $allTask = $homeManager->taskComing();
-    echo json_encode($allTask);
-  } else if ($_POST['action'] == "delayed") {
-    $allTask = $homeManager->taskDelayed();
-    echo json_encode($allTask);
   } else if ($_POST['action'] == "ascendant") {
     $allTask = $homeManager->sortAsc();
     echo json_encode($allTask);
@@ -44,33 +35,6 @@ class HomeManager extends Manager
     $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $allTask;
   }
-  public function taskToday()
-  {
-    echo $this->value;
-    $pdo = $this->connectDatabase();
-    $stmt = $pdo->prepare("SELECT * FROM task WHERE etat = 'aujourd\'hui' ");
-    $stmt->execute();
-    $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $allTask;
-  }
-  public function taskComing()
-  {
-    echo $this->value;
-    $pdo = $this->connectDatabase();
-    $stmt = $pdo->prepare("SELECT * FROM task WHERE etat = 'à venir' ");
-    $stmt->execute();
-    $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $allTask;
-  }
-  public function taskDelayed()
-  {
-    echo $this->value;
-    $pdo = $this->connectDatabase();
-    $stmt = $pdo->prepare("SELECT * FROM task WHERE etat = 'en retard' ");
-    $stmt->execute();
-    $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $allTask;
-  }
 
   public function sortAsc()
   {
@@ -87,6 +51,7 @@ class HomeManager extends Manager
     $stmt = $pdo->prepare("SELECT * FROM task ORDER BY CASE WHEN etat = 'aujourd\'hui' THEN 1 ELSE 0 END DESC, date_tache DESC");
     $stmt->execute();
     $allTask = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     return $allTask;
   }
 

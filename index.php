@@ -1,12 +1,15 @@
 <?php
 
+
+
 require ('./controllers/Controllers.php');
 
 
 $instControllers = new Controllers();
-
+$manager = new Manager();
 
 try {
+  $manager->connectDatabase();
   if (isset($_GET['page'])) {
     if ($_GET['page'] == "accueil") {
       $instControllers->home();

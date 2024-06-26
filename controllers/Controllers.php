@@ -32,40 +32,32 @@ class Controllers
 
   public function home()
   {
+    
     ?>
-    <script type="module">
-      import * as app from "../public/js/app.js";
-      fetch("controllers/Controllers.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: "action=descendant",
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          app.dataView(data, false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    </script>
-    <?php
+<script type="module">
+import * as app from "../public/js/app.js";
 
+fetch("controllers/Controllers.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: "action=descendant",
+  })
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    app.dataView(data, false);
+    app.countTask(dataView);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+</script>
+<?php
+require __DIR__ . '../../views/homeView.php';
 
-    $homeManager = new HomeManager();
-
-    $taskToday = count($homeManager->taskToday());
-    $taskComing = count($homeManager->taskComing());
-    $taskDelayed = count($homeManager->taskDelayed());
-    $fullTask = $taskToday + $taskComing + $taskDelayed;
-
-    $message = $fullTask > 0 ? "Tu as du travail aujourd'hui !" : "Vous êtes libre aujourd'hui !";
-    $contentNoTask = $fullTask == 0 ? "Vous n'avez pas encore de tâche !" : "";
-
-    require __DIR__ . '../../views/homeView.php';
 
   }
 

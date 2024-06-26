@@ -81,6 +81,7 @@ export function dataView(d, data_manip) {
 
     var div2 = document.createElement("div");
     div2.className = "data d-flex justify-content-between align-items-center";
+    div2.setAttribute("data-value", d[i]["etat"]);
     div2.id = i;
     var idTask = d[i]["id"];
 
@@ -108,6 +109,7 @@ export function dataView(d, data_manip) {
           let divId = this.closest(".data");
           divId.remove();
           removeTask(this.id, dataView);
+          countTask(dataView);
         });
 
         a.id = i;
@@ -176,6 +178,45 @@ function verifyState(dateN, dateT, etat, id) {
       console.log("ERREUR : " + e.message);
     });
   return newState;
+}
+
+export function countTask(dataView) {
+  let today = 0;
+  let coming = 0;
+  let delayed = 0;
+  Array.from(dataView.children).forEach((element) => {
+    switch (element.getAttribute("data-value")) {
+      case "aujourd'hui":
+        today++;
+        break;
+      case "à venir":
+        coming++;
+        break;
+      case "en retard":
+        delayed++;
+        break;
+      default:
+        break;
+    }
+  });
+
+  const todayCount = document.querySelector("#todayCount");
+  todayCount.innerText = today;
+  const comingCount = document.querySelector("#comingCount");
+  comingCount.innerText = coming;
+  const delayedCount = document.querySelector("#delayedCount");
+  delayedCount.innerText = delayed;
+  const totalCount = document.querySelector("#totalCount");
+  totalCount.innerText = today + coming + delayed;
+  const msgTask = document.querySelector("#msg-task");
+  const msgWelcome = document.querySelector("#msg-welcome");
+  if (todayCount.innerText > 0) {
+    msgTask.innerText = "";
+    msgWelcome.innerText = "Vous avez du travail aujourd'hui !";
+  } else {
+    msgTask.innerText = "Vous n'avez aucune tâche en attente !";
+    msgWelcome.innerText = "Aucune tâche à venir, vous êtes libre !";
+  }
 }
 
 function modifyTask(id) {

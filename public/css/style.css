@@ -16,7 +16,8 @@ p {
   font-family: "SF Pro Display SemiBold";
 }
 
-.welcome > p {
+.welcome > p,
+#msg-task {
   font-size: 1.1em;
   color: #5b5b5b;
   font-family: "SF Pro Display Light";

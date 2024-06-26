@@ -6,6 +6,7 @@ if (isset($_POST['update_state'])) {
 } else if (isset($_POST['remove'])) {
   $taskManager = new TaskManager(id: $_POST['remove']);
   $taskManager->remove();
+
 } else if (isset($_POST['id_modify'])) {
   $_SESSION['id'] = $_POST['id_modify'];
 }

@@ -6,7 +6,8 @@ ob_start();
 
 <div class="container my-4 welcome">
   <h2 class="mb-0">Bonjour <?= $user ?>,</h2>
-  <p><?= $message ?></p>
+  <p id="msg-welcome"></p>
+
 </div>
 <div class="container my-4">
   <div class="row dashboard">
@@ -19,7 +20,7 @@ ob_start();
         </div>
         <div class="div-nb-task">
           <h5>Aujourd'hui</h5>
-          <h4><?= $taskToday ?></h4>
+          <h4 id="todayCount"></h4>
         </div>
       </div>
     </div>
@@ -32,7 +33,7 @@ ob_start();
         </div>
         <div class="div-nb-task">
           <h5>À venir</h5>
-          <h4><?= $taskComing ?></h4>
+          <h4 id="comingCount"></h4>
         </div>
       </div>
     </div>
@@ -45,7 +46,7 @@ ob_start();
         </div>
         <div class="div-nb-task">
           <h5>En retard</h5>
-          <h4><?= $taskDelayed ?></h4>
+          <h4 id="delayedCount"></h4>
         </div>
       </div>
     </div>
@@ -58,7 +59,7 @@ ob_start();
         </div>
         <div class="div-nb-task">
           <h5>Total</h5>
-          <h4><?= $fullTask ?></h4>
+          <h4 id="totalCount"></h4>
         </div>
       </div>
     </div>
@@ -132,7 +133,7 @@ ob_start();
 
 
 <main class="container my-4" id="dataView">
-  <?= $contentNoTask ?>
+  <p id="msg-task" class="welcome"></p>
 </main>
 
 <div class="container my-4">
